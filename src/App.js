@@ -9,6 +9,7 @@ import ForgotPassword from "./components/Login/ForgotPassword";
 import Signup from "./components/Login/Signup";
 import Login from "./components/Login/Login";
 import ChangePassword from "./components/Login/ChangePassword";
+import UpdateProfile from "./components/Login/UpdateProfile";
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
                 <Routes>
                   <Route path="/" element={<PrivateRoute Component={Dashboard}/>} />
                   <Route path='/change-password' element={<PrivateRoute Component={ChangePassword}/>} />
+                  <Route path='/update-profile' element={<PrivateRoute Component={UpdateProfile}/>} />
                   <Route path='/signup' element={<Signup/>}></Route>
                   <Route path='/login' element={<Login/>}></Route>
                   <Route path='/reset' element={<ForgotPassword/>}></Route>

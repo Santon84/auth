@@ -24,9 +24,10 @@ export default function Dashboard() {
       <Card>
             <Card.Body>
                 <h2 className='text-center mb-4'>Profile</h2>
-                <p>{currentUser.uid}</p>
+                <p><strong>Name: </strong>{currentUser.displayName}</p>
+                <p><strong>uid: </strong> {currentUser.uid}</p>
                 {error && <Alert variant='danger'>{error}</Alert>}
-                <strong>Email:</strong> {currentUser.email}
+                <strong>Email: </strong> {currentUser.email}
                 <Link to='/update-profile' className='btn btn-primary w-100 mt-4'>Update Profile</Link>
                 <Link to='/change-password' className='btn btn-primary w-100 mt-4'>Change Password</Link>
             </Card.Body>

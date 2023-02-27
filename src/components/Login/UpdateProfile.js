@@ -4,27 +4,27 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
 function UpdateProfile() {
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const passwordConfirmRef = useRef();
-  const { signup } = useAuth();
+  const { updateUserInfo, currentUser } = useAuth();
+  const photoRef = useRef();
+  const nameRef = useRef();
   const [error,  setError] = useState('');
   const [loading,  setLoading] = useState(false);
   const history = useNavigate ();
+
+  
   async function handleSubmit(e) {
       e.preventDefault();
 
-      if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-          return setError('Пароли не совпадают');
-      }
+      if (!nameRef.current.value && !photoRef.current.value) return;
+      
       try {
           setError('');
           setLoading(true);
-          await signup(emailRef.current.value, passwordRef.current.value);
+          await updateUserInfo(nameRef.current.value, photoRef.current.value);
           history('/');
       } catch(err) {
           console.log(err)
-          setError('Не удалось создать аккаунт, попробуйте еще раз');
+          setError(err.message);
       } finally {
           setLoading(false);
       }
@@ -33,28 +33,26 @@ function UpdateProfile() {
       <div>
       <Card>
           <Card.Body>
-              <h2 className='text-center mb-4'>Sign Up</h2>
+              <h2 className='text-center mb-4'>Update Profile</h2>
               <Form onSubmit={handleSubmit}>
 
                   
                   {error && <Alert variant='danger'>{error}</Alert>}
-                  <FormGroup id='email'>
-                      <FormLabel>Email</FormLabel>
-                      <FormControl type='email' ref={emailRef} required></FormControl>
+                  <FormGroup id='name'>
+                      <FormLabel>Name</FormLabel>
+                      <FormControl type='text' ref={nameRef} defaultValue={currentUser.displayName}></FormControl>
                   </FormGroup>
-                  <FormGroup id='password'>
-                      <FormLabel>Password</FormLabel>
-                      <FormControl type='password' ref={passwordRef} required></FormControl>
+                  <FormGroup id='photo'>
+                      <FormLabel>Photo url</FormLabel>
+                      <FormControl type='text' ref={photoRef} defaultValue={currentUser.photoURL}></FormControl>
                   </FormGroup>
-                  <FormGroup id='password-confirm'>
-                      <FormLabel>Password Confirmation</FormLabel>
-                      <FormControl type='password' ref={passwordConfirmRef} required></FormControl>
-                  </FormGroup>
-                  <Button disabled={loading} type='submit' className='w-100 mt-2'>Sing Up</Button>
+                 
+                  <Button disabled={loading} type='submit' className='w-100 mt-2'>Update Profile</Button>
               </Form>
           </Card.Body>
       </Card>
-      <div className='w-100 text-center mt-2'>Already have an account? <Link to='/login'>Log In</Link></div>
+      <div className='w-100 text-center mt-2'><Link to='/'>to Dashboard</Link></div>
+        
       </div>
 )
 }
