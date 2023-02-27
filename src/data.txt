@@ -1,0 +1,9 @@
+[
+{
+id: 1
+question: 'How are you?',
+choices: ['fine', 'good', 'not so good'],
+correctAnswer: 1 
+}
+
+]
