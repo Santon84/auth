@@ -2,7 +2,8 @@ import React, { useRef, useState } from 'react'
 import { Card, Form, Button, FormGroup, FormLabel, FormControl, Alert} from 'react-bootstrap'
 import { Link, useNavigate  } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-
+import Conteiner from '../Layout/Conteiner';
+import FormConteiner from '../Layout/FormConteiner';
 
 function Login() {
     const emailRef = useRef();
@@ -28,7 +29,8 @@ function Login() {
         }
     }
     return (
-        <div>
+        <Conteiner layout='form'>
+        <FormConteiner>
         <Card>
             <Card.Body>
                 <h2 className='text-center mb-4'>Log In</h2>
@@ -51,7 +53,8 @@ function Login() {
         </Card>
         <div className='w-100 text-center mt-2'>Need an account? <Link to='/signup'>Sign Up</Link></div>
         <div className='w-100 text-center mt-2'>Forgot password? <Link to='/reset'>Reset</Link></div>
-        </div>
+        </FormConteiner>
+        </Conteiner>
   )
 }
 

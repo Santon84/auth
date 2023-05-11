@@ -3,6 +3,9 @@ import { Card, Form, Button, FormGroup, FormLabel, FormControl, Alert} from 'rea
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
+import Conteiner from '../Layout/Conteiner';
+import FormConteiner from '../Layout/FormConteiner';
+
 function UpdateProfile() {
   const { updateUserInfo, currentUser } = useAuth();
   const photoRef = useRef();
@@ -30,7 +33,8 @@ function UpdateProfile() {
       }
   }
   return (
-      <div>
+    <Conteiner layout='form'>
+    <FormConteiner>
       <Card>
           <Card.Body>
               <h2 className='text-center mb-4'>Update Profile</h2>
@@ -53,7 +57,8 @@ function UpdateProfile() {
       </Card>
       <div className='w-100 text-center mt-2'><Link to='/'>to Dashboard</Link></div>
         
-      </div>
+      </FormConteiner>
+      </Conteiner>
 )
 }
 
