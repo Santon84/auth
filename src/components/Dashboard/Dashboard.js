@@ -28,7 +28,7 @@ export default function Dashboard() {
     <Conteiner layout='dashboard'>
 
     {assessment.map(assessment => {
-     return <Assessment title={assessment.name} description={assessment.description}/>
+     return <Assessment title={assessment.name} description={assessment.description} url={assessment.id}/>
     })}
     
 

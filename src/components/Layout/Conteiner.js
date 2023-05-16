@@ -9,7 +9,7 @@ function Conteiner({children, layout}) {
             classes = 'd-flex align-items-center justify-content-center';
             break;
         case 'dashboard':
-            classes = 'd-flex align-items-start justify-content-start';
+            classes = 'align-items-start justify-content-start';
             break;
         default: 
             classes = 'd-flex align-items-center';

@@ -11,7 +11,7 @@ function handleClick() {
 function AssessmentCard({link,title,description}) {
   return (
     <div className='m-4 container-fluid'>
-      <Card onClick={handleClick} className='p-4 row'>
+      <Card onClick={handleClick} className='p-4'>
         <h2><Link to={link}>{title}</Link></h2>
         <p>{description}</p>
       </Card>
