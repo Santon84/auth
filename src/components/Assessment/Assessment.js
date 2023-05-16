@@ -1,12 +1,12 @@
 import React from 'react'
 import AssessmentCard from './AssessmentCard'
 
-function Assessment() {
+function Assessment({title, description}) {
 
 
     return (
     
-      <AssessmentCard title='Опрос 1' description='fsdlkfnsdkfhsd ldkfslkd fjlsdkfj lkfsdf lskdjfiewor wnsdlkvnsdbf' link='/' />
+      <AssessmentCard title={title} description={description} link='/' />
     
   )
 }

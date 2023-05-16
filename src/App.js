@@ -13,6 +13,7 @@ import UpdateProfile from "./components/Login/UpdateProfile";
 import Construtor from "./components/Constructor/Construtor";
 import UserPage from "./components/Login/UserPage";
 import Header from "./components/Header/Header";
+import EditAssessment from "./components/Assessment/EditAssessment";
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
                   <Route path='/reset' element={<ForgotPassword/>}></Route>
                   <Route path='/constructor' element={<Construtor/>}></Route>
                   <Route path='/profile' element={<UserPage/>}></Route>
+                  <Route path='/edit/:id' element={<EditAssessment/>}></Route>
                 </Routes>
               
               

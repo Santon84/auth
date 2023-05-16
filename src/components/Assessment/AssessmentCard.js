@@ -10,8 +10,8 @@ function handleClick() {
 
 function AssessmentCard({link,title,description}) {
   return (
-    <div className='m-4'>
-      <Card onClick={handleClick} className='p-4'>
+    <div className='m-4 container-fluid'>
+      <Card onClick={handleClick} className='p-4 row'>
         <h2><Link to={link}>{title}</Link></h2>
         <p>{description}</p>
       </Card>
