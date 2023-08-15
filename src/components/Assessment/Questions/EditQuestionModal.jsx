@@ -3,6 +3,11 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { addAnswer, addQuestion } from '../../Services/setData';
+import CloseButton from 'react-bootstrap/CloseButton';
+
+
+
+
 
 function EditQuestionModal({show, handleClose, data }) {
     const [items, setItems] = React.useState([]);
@@ -19,7 +24,9 @@ function EditQuestionModal({show, handleClose, data }) {
 
         //saving question 
         try {
-            addQuestion(question);
+            if(question.isEdited) {
+                addQuestion(question);
+            }
         }
         catch (e) {
             console.log(e.message);
@@ -28,7 +35,9 @@ function EditQuestionModal({show, handleClose, data }) {
         //Saving answers
         items.forEach(item => {
             try {
-                addAnswer(item, data.id);
+                if (item.isEdited) {
+                    addAnswer(item, data.id);
+                }
             } catch (e) {
                 console.log(e.message);
             } finally {
@@ -39,16 +48,20 @@ function EditQuestionModal({show, handleClose, data }) {
 
 
     function handleQuestionChange(e) {
-        setQuestion(prev => ({...prev, question: e.target.value}));
+        setQuestion(prev => question.isEdited ? ({...prev, question: e.target.value}) : ({...prev, question: e.target.value, isEdited: true}));
     }
 
 
     function handleChange(e) {
         setItems([...items].map(item => {
             if (item.id === e.target.id) {
-                return {
+                return item.isEdited ? {
                     ...item,
                     answer: e.target.value
+                } : {
+                    ...item,
+                    answer: e.target.value,
+                    isEdited: true
                 }
             } else return item
         })) 
@@ -79,11 +92,20 @@ function EditQuestionModal({show, handleClose, data }) {
         <Form>
             {items.map((data,index) => {
                 return (
-                 <Form.Control className='mb-3' key={index} id={data.id} type="text" placeholder="answer" onChange={(e) => handleChange(e)} defaultValue={data.answer} />
+                    <div className='d-flex align-items-center justify-content-between flex-row container-fluid'>
+                        <Form.Check
+                            inline
+                            name="group1"
+                            type='radio'
+                            className='mb-3'
+                        />
+                        <Form.Control className='mb-3' key={index} id={data.id} type="text" placeholder="answer" onChange={(e) => handleChange(e)} defaultValue={data.answer} />
+                        <CloseButton className='mb-3'/>
+                    </div>
                  )
             })}
         </Form>
-        <Button onClick={handleAddClick} variant="outline-primary">+</Button>{' '}
+        <Button onClick={handleAddClick} variant="outline-primary">+</Button>
         </Modal.Body>
         
         <Modal.Footer>
