@@ -34,3 +34,27 @@ export const getAnswersList = async(id) => {
     return data;
     
 }
+
+export const getAnswerById = async(questionId, answerId) => {
+    // const Collection = collection(db, 'user-id', 'j8XOynhNdZwoVUkJgtan', 'assessments', 'FXVSRIIlo5oTmhHFF6TF', 'questions', questionId, 'answers', answerId);
+    const docRef = doc(db, 'user-id', 'j8XOynhNdZwoVUkJgtan', 'assessments', 'FXVSRIIlo5oTmhHFF6TF', 'questions', questionId, 'answers', answerId);
+    try {
+        const docSnap = await getDoc(docRef);
+        if(docSnap.exists()) {
+            console.log(docSnap.data());
+        } else {
+            console.log("Document does not exist")
+        }
+    
+    } catch(error) {
+        console.log(error)
+    }
+
+
+    // const toDoSnapshot = await getDocs(todoCollection);
+    // const data = toDoSnapshot.docs.map(doc => {
+    //     return ({...doc.data(),id: doc.id})
+    // } );
+    // return data;
+    
+}

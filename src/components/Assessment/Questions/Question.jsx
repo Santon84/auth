@@ -13,6 +13,7 @@ function Question({question, qId}) {
   function showAnswers() {
     getAnswersList(qId).then(res => {
       res.question = question;
+      res.id = qId;
       setAnswersData(res);
       
       setShowEdit(true);
