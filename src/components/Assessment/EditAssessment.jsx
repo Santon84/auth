@@ -20,7 +20,8 @@ function EditAssessment() {
         <Conteiner layout='dashboard'>
         {   
             assesment.sort((a,b) => a.order - b.order).map(question => {
-                return <Question question={question.question}/>
+                
+                return <Question key={question.id} question={question.question} qId={question.id}/>
             })
         }
         </Conteiner>

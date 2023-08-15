@@ -31,14 +31,16 @@ function App() {
                 <Routes>
                   
                   <Route path="/" element={<PrivateRoute Component={Dashboard}/>} />
+                  {/* PROFILE ROUTES START */}
                   <Route path='/change-password' element={<PrivateRoute Component={ChangePassword}/>} />
                   <Route path='/update-profile' element={<PrivateRoute Component={UpdateProfile}/>} />
                   <Route path='/signup' element={<Signup/>}></Route>
                   <Route path='/login' element={<Login/>}></Route>
                   <Route path='/reset' element={<ForgotPassword/>}></Route>
-                  <Route path='/constructor' element={<Construtor/>}></Route>
                   <Route path='/profile' element={<UserPage/>}></Route>
+                  {/* PROFILE ROUTES END */}
                   <Route path='/edit/:id' element={<EditAssessment/>}></Route>
+                  <Route path='/constructor' element={<Construtor/>}></Route>
                 </Routes>
               
               

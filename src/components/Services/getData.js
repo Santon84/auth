@@ -23,3 +23,14 @@ export const getAssessmentById = async(id) => {
     return data;
     
 }
+
+export const getAnswersList = async(id) => {
+    const todoCollection = collection(db, 'user-id', 'j8XOynhNdZwoVUkJgtan', 'assessments', 'FXVSRIIlo5oTmhHFF6TF', 'questions', id, 'answers');
+    
+    const toDoSnapshot = await getDocs(todoCollection);
+    const data = toDoSnapshot.docs.map(doc => {
+        return ({...doc.data(),id: doc.id})
+    } );
+    return data;
+    
+}
