@@ -1,5 +1,5 @@
 import { db } from '../../firebase';
-import { collection, doc, updateDoc, addDoc, getDoc, setDoc } from 'firebase/firestore';
+import { collection, doc, updateDoc, addDoc, deleteDoc } from 'firebase/firestore';
 
 export async function addAnswer(answer,id) {
 
@@ -25,6 +25,23 @@ export async function addAnswer(answer,id) {
     }
 
 }
+/**
+ * 
+ * @param {string} questionID 
+ * @param {string} answerId 
+ */
+export async function deleteAnswer(questionID, answerId) {
+
+        const docRef = doc(db, 'user-id', 'j8XOynhNdZwoVUkJgtan', 'assessments', 'FXVSRIIlo5oTmhHFF6TF', 'questions', questionID, 'answers', answerId);
+        await deleteDoc(docRef);
+}
+
+export async function deleteQuestion(questionID) {
+
+    const docRef = doc(db, 'user-id', 'j8XOynhNdZwoVUkJgtan', 'assessments', 'FXVSRIIlo5oTmhHFF6TF', 'questions', questionID);
+    await deleteDoc(docRef);
+}
+
 
 export async function addQuestion(question) {
 
@@ -33,10 +50,11 @@ export async function addQuestion(question) {
         // ADD Question
         const newDocRef = collection(db, 'user-id', 'j8XOynhNdZwoVUkJgtan', 'assessments', 'FXVSRIIlo5oTmhHFF6TF', 'questions');
 
-        await addDoc(newDocRef, {
+        const { id } = await addDoc(newDocRef, {
         question: question.question,
         order: 0,   
-        });
+        })
+        return id;
     } 
     else {
         // UPDATE Question

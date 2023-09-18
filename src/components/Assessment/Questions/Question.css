@@ -1,0 +1,10 @@
+.question__card:hover ~ .btn-close.question__delete{
+    opacity: .5;
+}
+.btn-close.question__delete {
+    opacity: 0;
+    transition: opacity .2s ease-in;
+}
+.btn-close.question__delete:hover {
+    opacity: 1;
+}

@@ -2,8 +2,11 @@ import React, {useRef, useState} from 'react'
 import ReactDOM from 'react-dom'
 import { Card, Button } from 'react-bootstrap'
 import Conteiner from '../Layout/Conteiner'
-
+import {  useSelector  } from 'react-redux'
 const Construtor = () => {
+
+  const assessment = useSelector(state => state.AssessmentReducer);
+  console.log(assessment.id);
     const [list, setList] = useState(['hello', 'hello 2'])
   function handleClick(e) {
     e.preventDefault();
