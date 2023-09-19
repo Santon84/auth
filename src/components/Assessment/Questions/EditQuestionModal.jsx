@@ -4,12 +4,11 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { addAnswer, addQuestion, deleteAnswer } from '../../Services/setData';
 import CloseButton from 'react-bootstrap/CloseButton';
+import ModalForm from '../../Modal/ModalForm';
 
 
 
-
-
-function EditQuestionModal({show, handleClose, data }) {
+function EditQuestionModal({show, title, handleClose, data }) {
     const [items, setItems] = React.useState([]);
     const [itemsToDelete, setItemsToDelete] = React.useState([]);
     const [question, setQuestion] = React.useState([]);
@@ -132,16 +131,9 @@ function EditQuestionModal({show, handleClose, data }) {
     },[items])
     
    return (
+    <ModalForm show={show} title={title} handleClose={handleClose} handleSaveClick={handleSaveClick}>
 
-    <Modal key={data.id} show={show} onHide={handleClose}>
-        {/* <div className='m-4'> */}
-        <Modal.Header closeButton>
-          <Modal.Title>Редактирование ответов</Modal.Title>
-        </Modal.Header>
-        
-        <Modal.Body>
-            
-            <Form.Control onChange={(e) => handleQuestionChange(e)} key={data.question} className="fw-bold" as="textarea" rows={3} placeholder="Normal text" defaultValue={data.question} />
+    <Form.Control onChange={(e) => handleQuestionChange(e)} key={data.question} className="fw-bold" as="textarea" rows={3} placeholder="Текст вопроса" defaultValue={data.question} />
                     <br/>
             <Form>
                 {items.map((data,index) => {
@@ -164,17 +156,32 @@ function EditQuestionModal({show, handleClose, data }) {
                 })}
             </Form>
             <Button onClick={handleAddClick} variant="outline-primary">+</Button>
-        </Modal.Body>
+    </ModalForm>
+
+
+
+
+
+    // <Modal key={data.id} show={show} onHide={handleClose}>
+    //     {/* <div className='m-4'> */}
+    //     <Modal.Header closeButton>
+    //       <Modal.Title>Редактирование ответов</Modal.Title>
+    //     </Modal.Header>
         
-        <Modal.Footer>
-          <Button variant="secondary" >
-            Close
-          </Button>
-          <Button onClick={handleSaveClick} variant="primary" >
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
+    //     <Modal.Body>
+            
+            
+    //     </Modal.Body>
+        
+    //     <Modal.Footer>
+    //       <Button variant="secondary" >
+    //         Close
+    //       </Button>
+    //       <Button onClick={handleSaveClick} variant="primary" >
+    //         Save Changes
+    //       </Button>
+    //     </Modal.Footer>
+    //   </Modal>
   )
 }
 

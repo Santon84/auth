@@ -2,10 +2,26 @@
 import { createSlice, createAction } from '@reduxjs/toolkit'
 // import { fetchBooks } from './requests/fetch'
 
+export interface Iquestion {
+    id: string,
+    question: string,
+    correct: boolean
+}
 
-const initialState = {
+
+
+export interface IAssessmentState {
+    questions: Iquestion[],
+    id: string,
+    name: string,
+    loading: boolean,
+    error: string
+
+}
+const initialState:IAssessmentState = {
     questions: [],
     id: '123123123423',
+    name: 'name',
     loading: false,
     error: '',
 
@@ -17,6 +33,13 @@ const initialState = {
 const AssessmentSlice = createSlice({
     name: 'assessment',
     initialState,
+    reducers: {
+        getName(state) {
+            state.name = state.name.toLowerCase();
+        }
+    }
+    
+})
 //     extraReducers: (builder) => {
 //     builder.addCase(fetchBooks.pending, (state) => {
       
@@ -43,7 +66,7 @@ const AssessmentSlice = createSlice({
 //      })
      
     // },
-  })
+  
 
 
 

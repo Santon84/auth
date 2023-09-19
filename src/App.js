@@ -14,7 +14,7 @@ import Construtor from "./components/Constructor/Construtor";
 import UserPage from "./components/Login/UserPage";
 import Header from "./components/Header/Header";
 import EditAssessment from "./components/Assessment/EditAssessment";
-
+import './App.css';
 
 function App() {
   return (
@@ -40,7 +40,7 @@ function App() {
                   <Route path='/profile' element={<UserPage/>}></Route>
                   {/* PROFILE ROUTES END */}
                   <Route path='/edit/:id' element={<EditAssessment/>}></Route>
-                  <Route path='/constructor' element={<Construtor/>}></Route>
+                 {/* <Route path='/constructor' element={<Construtor/>}></Route> */}
                 </Routes>
               
               

@@ -41,7 +41,7 @@ function EditAssessment() {
                 }
                 <Button onClick={handleNewQuestion} className='mt-4' variant="outline-primary">+</Button>{' '}
             </div>
-            {showEdit  ? <EditQuestionModal show={showEdit} handleClose={handleCloseModal} data={answersData} /> : null}
+            {showEdit  ? <EditQuestionModal title='Новый вопрос' show={showEdit} handleClose={handleCloseModal} data={answersData} /> : null}
     
         </Conteiner>
         

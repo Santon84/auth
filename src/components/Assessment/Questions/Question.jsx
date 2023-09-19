@@ -11,6 +11,7 @@ function Question({question, qId}) {
   const [answersData,  setAnswersData] = React.useState([]);
   const handleCloseModal = () => {
     setShowEdit(false);
+    console.log('Close modal');
     setAnswersData([]);
   }
   function handleDeleteQuestion(e) {
@@ -43,7 +44,7 @@ function Question({question, qId}) {
     
     
         
-    {showEdit  ? <EditQuestionModal key={qId} show={showEdit} handleClose={handleCloseModal} data={answersData} /> : null}
+    {showEdit  ? <EditQuestionModal key={qId} title="Редактировать вопрос" show={showEdit} handleClose={handleCloseModal} data={answersData} /> : null}
     </div>
 
   )
