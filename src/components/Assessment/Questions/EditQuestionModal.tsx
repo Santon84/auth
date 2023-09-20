@@ -1,18 +1,26 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { addAnswer, addQuestion, deleteAnswer } from '../../Services/setData';
 import CloseButton from 'react-bootstrap/CloseButton';
 import ModalForm from '../../Modal/ModalForm';
+import { AnswerData, QuestionData } from '../../../types/types';
 
 
+type EditQuestionModalProps = {
 
-function EditQuestionModal({show, title, handleClose, data }) {
-    const [items, setItems] = React.useState([]);
-    const [itemsToDelete, setItemsToDelete] = React.useState([]);
-    const [question, setQuestion] = React.useState([]);
-    //console.log(data.question);
+    show: boolean, 
+    title: string, 
+    handleClose: () => void,
+    answers: AnswerData[] | undefined,
+    question: QuestionData | null
+
+}
+
+function EditQuestionModal({show, title, handleClose, answers, question }:EditQuestionModalProps) {
+    const [items, setItems] = React.useState<AnswerData[]>([]);
+    const [itemsToDelete, setItemsToDelete] = React.useState<string[]>([]);
+    const [question1, setQuestion] = React.useState<QuestionData>();
 
     function handleAddClick() {
         console.log(items);
@@ -21,38 +29,40 @@ function EditQuestionModal({show, title, handleClose, data }) {
 
 
     async function handleSaveClick() {
-
+        console.log(question1);
         //saving question if changed
         try {
-            if(question.isEdited) {
-                if (!question.id) {
-                    data.id = await addQuestion(question)
+            if(question1?.isEdited) {
+                if (!question1.id) {
+                    // if(!a?.id) return;
+                    await addQuestion(question1)
                 } else {
-                    addQuestion(question).then(console.log('id exists'))
+                    addQuestion(question1).then(res => console.log(res))
                 }
             }
         }
-        catch (e) {
-            console.log(e.message);
+        catch (e:any) {
+            console.log(e);
         }
         //delete items if delete list is not empty
 
-        itemsToDelete.forEach(item => {
+        itemsToDelete.forEach(answerId => {
             try {
-                deleteAnswer(data.id, item);
-            } catch (error) {
-                console.log(error.message)
+                if (!question?.id) return;
+                deleteAnswer(question.id, answerId);
+            } catch (error:any) {
+                console.log(error)
             }
         });
-        if (!data.id) return;
+        if (!question?.id) return;
         //Saving answers if necessary
         items.forEach(item => {
             try {
                 if (item.isEdited) {
-                    addAnswer(item, data.id);
+                    addAnswer(item, question.id);
                 }
-            } catch (e) {
-                console.log(e.message);
+            } catch (e:any) {
+                console.log(e);
             } finally {
                 // closing window
                 handleClose();
@@ -61,7 +71,7 @@ function EditQuestionModal({show, title, handleClose, data }) {
         handleClose();
     }
 
-    function handleCorrectChange(e) {
+    function handleCorrectChange(e:React.ChangeEvent<HTMLElement>) {
         // removing all marks
         setItems(prev => prev.map(item => {
             if (item.correct) return {...item, correct: false, isEdited: true}
@@ -83,31 +93,36 @@ function EditQuestionModal({show, title, handleClose, data }) {
         })) 
         
     }
-    function handleQuestionChange(e) {
-        setQuestion(prev => question.isEdited ? ({...prev, question: e.target.value}) : ({...prev, question: e.target.value, isEdited: true}));
+    function handleQuestionChange(e:React.ChangeEvent<HTMLElement>) {
+       
+       if (!question1) return;
+       const target = e.target as HTMLTextAreaElement;
+       setQuestion(prev => question1.isEdited ? ({...prev, question: target.value} as QuestionData) : ({...prev, question: target.value, isEdited: true} as QuestionData));
     }
 
-    function handleDeleteAnswer(e) {
-        if (!e.target.id) {
-            setItems(prev => prev.filter((item,index) => index !== Number(e.target.getAttribute('data-id'))));
+    function handleDeleteAnswer(e:React.MouseEvent<HTMLButtonElement>) {
+        const target = e.target as HTMLButtonElement;
+        if (!target.id) {
+            setItems(prev => prev.filter((item,index) => index !== Number(target.getAttribute('data-id'))));
         } else {
-            setItemsToDelete(prev => [...prev, e.target.id]);
-            setItems(prev => prev.filter(item => item.id !== e.target.id));
+        
+            setItemsToDelete(prev => [...prev, target.id]  );
+            setItems(prev => prev.filter(item => item.id !== target.id));
         }
     }
-    function handleChange(e) {
-        
+    function handleChange(e:React.ChangeEvent<HTMLElement>) {
+        const target = e.target as HTMLTextAreaElement;
         setItems(prev => prev.map((item,index) => {
           
 
-            if (item.id === e.target.id) {
-                if (index === Number(e.target.getAttribute('data-id'))){
+            if (item.id === target.id) {
+                if (index === Number(target.getAttribute('data-id'))){
                     return item?.isEdited ? {
                         ...item,
-                        answer: e.target.value
+                        answer: target.value
                     } : {
                         ...item,
-                        answer: e.target.value,
+                        answer: target.value,
                         isEdited: true
                     }
                 } else return item
@@ -116,24 +131,29 @@ function EditQuestionModal({show, title, handleClose, data }) {
         })) 
     }
 
-    React.useEffect(() => {
-        setItems(data);
-        setQuestion({question: data.question, id:data.id})
+        React.useEffect(() => {
+            //if no question means new question
+            if (!question) return;
+            setQuestion(question);
+            //no answers maybe at new question or existing
+            if (!answers) return;
+            setItems(answers);
+            
         return () => {
             setItems([]);
-            setQuestion([]);
+            setQuestion(undefined);
             setItemsToDelete([]);
         }
     },[]);
-    React.useEffect(() => {
-        console.log('items')
-        console.log(items)
-    },[items])
+    // React.useEffect(() => {
+    //     console.log('items')
+    //     console.log(items)
+    // },[items])
     
    return (
     <ModalForm show={show} title={title} handleClose={handleClose} handleSaveClick={handleSaveClick}>
 
-    <Form.Control onChange={(e) => handleQuestionChange(e)} key={data.question} className="fw-bold" as="textarea" rows={3} placeholder="Текст вопроса" defaultValue={data.question} />
+    <Form.Control onChange={(e) => handleQuestionChange(e)} key={question?.id} className="fw-bold" as="textarea" rows={3} placeholder="Текст вопроса" defaultValue={question?.question} />
                     <br/>
             <Form>
                 {items.map((data,index) => {

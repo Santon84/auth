@@ -1,8 +1,12 @@
 import React from 'react'
 import { Container } from "react-bootstrap";
 
+type ContainerProps = {
+children: React.ReactNode,
+layout: string,
+}
 
-function Conteiner({children, layout}) {
+function Conteiner({children, layout} :ContainerProps) {
     let classes = ''
     switch(layout) {
         case 'form':

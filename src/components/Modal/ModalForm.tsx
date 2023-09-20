@@ -5,7 +5,7 @@ import Modal from 'react-bootstrap/Modal';
 
 type ModalProps = {
   title: string,
-  children: JSX.Element,
+  children: React.ReactNode,
   show: boolean,
   handleClose: () => void,
   handleSaveClick: () => void,

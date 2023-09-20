@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from 'react'
 // import { Card, Button, Alert} from 'react-bootstrap'
 
-
-import Conteiner from '../Layout/Conteiner';
+import Conteiner from '../components/Layout/Conteiner';
 // import FormConteiner from '../Layout/FormConteiner';
-import Assessment from '../Assessment/Assessment';
-import { getAssessmentList } from '../Services/getData';
+import Assessment from '../components/Assessment/Assessment';
+import { getAssessmentList } from '../components/Services/getData';
+import { type AssessmentData } from '../types/types';
+
+
+
+
 export default function Dashboard() {
   
-  const [assessment, setAssessment] = useState([]);
+  const [assessment, setAssessment] = useState<AssessmentData[]>();
   
   useEffect(() => {
     
-    getAssessmentList().then(res => {
+    getAssessmentList().then((res) => {
       console.log(res);
       setAssessment(res);
      } )
@@ -26,8 +30,8 @@ export default function Dashboard() {
   return (
     
     <Conteiner layout='dashboard'>
-
-    {assessment.map(assessment => {
+      <div>Dashboard</div>
+    {assessment?.map((assessment:AssessmentData) => {
      return <Assessment key={assessment.id} title={assessment.name} description={assessment.description} url={assessment.id}/>
     })}
     

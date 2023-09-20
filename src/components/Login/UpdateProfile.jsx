@@ -18,7 +18,7 @@ function UpdateProfile() {
   async function handleSubmit(e) {
       e.preventDefault();
 
-      if (!nameRef.current.value && !photoRef.current.value) return;
+      if (!nameRef.current?.value && !photoRef.current?.value) return;
       
       try {
           setError('');

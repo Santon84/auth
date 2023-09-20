@@ -1,7 +1,13 @@
 import { db } from '../../firebase';
 import { collection, doc, updateDoc, addDoc, deleteDoc } from 'firebase/firestore';
+import { AnswerData, QuestionData } from '../../types/types';
 
-export async function addAnswer(answer,id) {
+type addAnswerProps = {
+    answer: AnswerData,
+    id: string,
+}
+
+export async function addAnswer(answer:AnswerData, id: string) {
 
     if (answer.answer === '') return;
     if (!answer.id) {
@@ -30,20 +36,24 @@ export async function addAnswer(answer,id) {
  * @param {string} questionID 
  * @param {string} answerId 
  */
-export async function deleteAnswer(questionID, answerId) {
+
+
+export async function deleteAnswer(questionID:string, answerId:string) {
 
         const docRef = doc(db, 'user-id', 'j8XOynhNdZwoVUkJgtan', 'assessments', 'FXVSRIIlo5oTmhHFF6TF', 'questions', questionID, 'answers', answerId);
         await deleteDoc(docRef);
 }
 
-export async function deleteQuestion(questionID) {
+
+type DeleteQuestionProps = string;
+export async function deleteQuestion(questionID:DeleteQuestionProps) {
 
     const docRef = doc(db, 'user-id', 'j8XOynhNdZwoVUkJgtan', 'assessments', 'FXVSRIIlo5oTmhHFF6TF', 'questions', questionID);
     await deleteDoc(docRef);
 }
 
 
-export async function addQuestion(question) {
+export async function addQuestion(question:QuestionData) {
 
     if (question.question === '') return;
     if (!question.id) {
@@ -64,7 +74,7 @@ export async function addQuestion(question) {
             question: question.question,
             order: 0
         })
-
+        return question.id
     }
 
 }

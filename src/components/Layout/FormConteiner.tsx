@@ -1,6 +1,10 @@
 import React from 'react'
 
-function FormConteiner({children} ) {
+type FormContainerProps = {
+children: React.ReactNode
+}
+
+function FormConteiner({children}:FormContainerProps ) {
   return (
     <div className="w-100" style={{maxWidth: '400px'}}>
     {children}    
