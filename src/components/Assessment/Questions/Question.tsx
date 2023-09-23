@@ -1,9 +1,9 @@
 import React from 'react'
 import { Card, CloseButton } from 'react-bootstrap'
 import './Question.css'
-import { getAnswersList } from '../../Services/getData';
+import { getAnswersList } from '../../../redux/api/getData';
 import EditQuestionModal from './EditQuestionModal';
-import { deleteQuestion } from '../../Services/setData';
+import { deleteQuestion } from '../../../redux/api/setData';
 import { AnswerData } from '../../../types/types';
 
 type QuestionProps = {

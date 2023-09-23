@@ -6,12 +6,14 @@ import { type AssessmentProps } from '../../types/types'
 
 function Assessment({title, description, url}: AssessmentProps) {
 
-
     return (
-    <>
-      
-      <AssessmentCard title={title} description={description} url={`edit/${url}`} />
-    </>
+    
+      <AssessmentCard 
+      title={title} 
+      description={description} 
+      url={`edit/${url}`} 
+      />
+  
   )
 }
 

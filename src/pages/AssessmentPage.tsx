@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { getQuestionListByAssessmentId } from '../components/Services/getData'
+import { getQuestionListByAssessmentId } from '../redux/api/getData'
 import { useParams } from 'react-router'
 import Conteiner from '../components/Layout/Conteiner'
 import { Button } from 'react-bootstrap'
-import EditQuestionModal from '../components/Assessment/Questions/EditQuestionModal'
-import Question from '../components/Assessment/Questions/Question'
+import EditQuestionModal from '../components/Assessment/questions/EditQuestionModal'
+import Question from '../components/Assessment/questions/Question'
 import { QuestionData } from '../types/types'
 
 function AssessmentPage() {

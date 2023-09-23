@@ -5,18 +5,18 @@ import { AnswerData, AssessmentData, QuestionData } from '../../types/types';
 
 
 
-export const getAssessmentList = async() => {
-    const todoCollection = collection(db, 'user-id', 'j8XOynhNdZwoVUkJgtan', 'assessments');
+// export const getAssessmentList = async() => {
+//     const todoCollection = collection(db, 'user-id', 'j8XOynhNdZwoVUkJgtan', 'assessments');
     
-    const toDoSnapshot = await getDocs(todoCollection);
-    const data : AssessmentData[] = toDoSnapshot.docs.map(doc => {
-        return (({...doc.data(),id: doc.id}) as AssessmentData)
-    } );
-    console.log('List')
-    console.log(data)
-    return data;
+//     const toDoSnapshot = await getDocs(todoCollection);
+//     const data : AssessmentData[] = toDoSnapshot.docs.map(doc => {
+//         return (({...doc.data(),id: doc.id}) as AssessmentData)
+//     } );
+//     console.log('List')
+//     console.log(data)
+//     return data;
     
-}
+// }
 
 
 // export async function getAssessmentById(id:string) {

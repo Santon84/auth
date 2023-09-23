@@ -13,6 +13,7 @@ import UpdateProfile from "./components/Login/UpdateProfile";
 import UserPage from "./components/Login/UserPage";
 import Header from "./components/Header/Header";
 import AssessmentPage from "./pages/AssessmentPage";
+import Construtor from "./components/Constructor/Construtor";
 import './App.css';
 
 function App() {
@@ -37,7 +38,7 @@ function App() {
                   <Route path='/profile' element={<UserPage/>}></Route>
                   {/* PROFILE ROUTES END */}
                   <Route path='/edit/:id' element={<AssessmentPage/>}></Route>
-                 {/* <Route path='/constructor' element={<Construtor/>}></Route> */}
+                 <Route path='/constructor' element={<Construtor/>}></Route>
                 </Routes>
               
               

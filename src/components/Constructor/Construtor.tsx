@@ -3,12 +3,13 @@ import ReactDOM from 'react-dom'
 import { Card, Button } from 'react-bootstrap'
 import Conteiner from '../Layout/Conteiner'
 import {  useSelector  } from 'react-redux'
-import { IAssessmentState } from '../../store/assessment'
-import { RootState } from '../../store/store'
+import { IAssessmentState } from '../../redux/reducers/assessment'
+import { RootState } from '../../redux/store'
 const Construtor = () => {
 
-  const assessment = useSelector((state: RootState) => state.AssessmentReducer);
-  console.log(assessment.id);
+  // const assessment = useSelector((state: RootState) => state.assessment);
+  
+  // console.log(assessment.id);
     
   
   return (

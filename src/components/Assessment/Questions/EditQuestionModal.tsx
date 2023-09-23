@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { addAnswer, addQuestion, deleteAnswer } from '../../Services/setData';
+import { addAnswer, addQuestion, deleteAnswer } from '../../../redux/api/setData';
 import CloseButton from 'react-bootstrap/CloseButton';
 import ModalForm from '../../Modal/ModalForm';
 import { AnswerData, QuestionData } from '../../../types/types';
@@ -178,30 +178,6 @@ function EditQuestionModal({show, title, handleClose, answers, question }:EditQu
             <Button onClick={handleAddClick} variant="outline-primary">+</Button>
     </ModalForm>
 
-
-
-
-
-    // <Modal key={data.id} show={show} onHide={handleClose}>
-    //     {/* <div className='m-4'> */}
-    //     <Modal.Header closeButton>
-    //       <Modal.Title>Редактирование ответов</Modal.Title>
-    //     </Modal.Header>
-        
-    //     <Modal.Body>
-            
-            
-    //     </Modal.Body>
-        
-    //     <Modal.Footer>
-    //       <Button variant="secondary" >
-    //         Close
-    //       </Button>
-    //       <Button onClick={handleSaveClick} variant="primary" >
-    //         Save Changes
-    //       </Button>
-    //     </Modal.Footer>
-    //   </Modal>
   )
 }
 

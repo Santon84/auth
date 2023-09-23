@@ -4,36 +4,37 @@ import React, { useEffect, useState } from 'react'
 import Conteiner from '../components/Layout/Conteiner';
 // import FormConteiner from '../Layout/FormConteiner';
 import Assessment from '../components/Assessment/Assessment';
-import { getAssessmentList } from '../components/Services/getData';
 import { type AssessmentData } from '../types/types';
-
+import { useDispatch, useSelector } from 'react-redux';
+import getAssessmentsActions from '../redux/actions/assessmentActions';
+import { IAssessmentState } from '../redux/reducers/assessment';
+import { RootState } from '../redux/store';
+import Spinner from '../components/Layout/Spinner';
 
 
 
 export default function Dashboard() {
-  
+  const dispatch :any = useDispatch();
   const [assessment, setAssessment] = useState<AssessmentData[]>();
-  
+  const {items = [], loading} = useSelector((state:RootState) => state.assessment);
   useEffect(() => {
-    
-    getAssessmentList().then((res) => {
-      console.log(res);
-      setAssessment(res);
-     } )
-    
-  },[]);
+    dispatch(getAssessmentsActions());
+  },[dispatch]);
+  useEffect(() => {
+    console.log(items)
+  },[items])
+  
+  if (loading) return <Spinner />;
 
-
-  useEffect(()=> {
-    console.log(assessment);
-  },[assessment])
   return (
     
     <Conteiner layout='dashboard'>
       <div>Dashboard</div>
-    {assessment?.map((assessment:AssessmentData) => {
-     return <Assessment key={assessment.id} title={assessment.name} description={assessment.description} url={assessment.id}/>
-    })}
+      {
+        items?.map((assessment:AssessmentData) => {
+        return <Assessment key={assessment.id} title={assessment.name} description={assessment.description} url={assessment.id}/>
+        })
+      }
     
 
     </Conteiner>

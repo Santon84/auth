@@ -4,12 +4,7 @@ export type AssessmentProps = {
     url: string,
 }
 
-export type AssessmentData = {
-    id : string,
-    name: string,
-    description: string,
 
-}
 export type AnswerData = {
     id : string,
     answer: string,
@@ -20,5 +15,11 @@ export type QuestionData = {
     id : string,
     question: string,
     order: number,
+    isEdited?: boolean,
+}
+export type AssessmentData = {
+    id: string,
+    name: string,
+    description: string,
     isEdited?: boolean,
 }
