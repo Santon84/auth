@@ -1,11 +1,14 @@
 import React from 'react'
 import AssessmentCard from './AssessmentCard'
-import { type AssessmentProps } from '../../types/types'
 
+export type AssessmentProps = {
+  title: string,
+  description: string,
+  url: string,
+}
 
-
-function Assessment({title, description, url}: AssessmentProps) {
-
+function Assessment(props: AssessmentProps) {
+  const { title, description, url} = props;
     return (
     
       <AssessmentCard 

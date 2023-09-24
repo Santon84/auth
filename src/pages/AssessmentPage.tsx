@@ -46,11 +46,16 @@ function AssessmentPage() {
 
                     assesment?.sort((a,b) => a.order - b.order).map(question => {
                         
-                        return <Question key={question.id} question={question.question} qId={question.id}/>
+                        return <Question 
+                                key={question.id} 
+                                question={question.question} 
+                                qId={question.id}
+                                />
                     })
                 }
                 <Button onClick={handleNewQuestion} className='mt-4' variant="outline-primary">+</Button>{' '}
             </div>
+            {/* add new question */}
             {showEdit  ? <EditQuestionModal title='Новый вопрос' show={showEdit} handleClose={handleCloseModal} answers={undefined} question={null}/> : null} 
     
         </Conteiner>
