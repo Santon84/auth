@@ -27,15 +27,54 @@ function EditQuestionModal({show, title, handleClose, answers, question }:EditQu
         setItems(prev => [...prev, {answer: '', correct: false, id: ''}]);
     }
 
+    async function deleteItems() {
+        if (!itemsToDelete || !question1?.id) return;
+
+        itemsToDelete.forEach(answerId => {
+            try {
+                deleteAnswer(question1.id, answerId);
+            } catch (error:any) {
+                console.log(error);
+            }
+        });
+    }
+    async function addAnswers() {
+        if (!items || !question1?.id) return;
+
+        items.forEach(item => {
+            try {
+
+                if (item.isEdited) {
+
+                    addAnswer(item, question1.id);
+                }
+            } catch (e:any) {
+                console.log(e);
+            } 
+        })
+    }
+
 
     async function handleSaveClick() {
+        console.log('click to save');
         console.log(question1);
         //saving question if changed
         try {
             if(question1?.isEdited) {
                 if (!question1.id) {
+                    console.log('if id')
                     // if(!a?.id) return;
-                    await addQuestion(question1)
+                    await addQuestion(question1).then((id) => { 
+                        
+                        setQuestion(prev => {
+                            console.log('setQuestion');
+                            console.log(({...prev, id: id}))
+                            // TODO resolve this problem
+                           return ({...prev, id: id}) as QuestionData
+                        } );
+                        console.log('after setQuestion',question1);
+                    });
+                    
                 } else {
                     addQuestion(question1).then(res => console.log(res))
                 }
@@ -45,29 +84,14 @@ function EditQuestionModal({show, title, handleClose, answers, question }:EditQu
             console.log(e);
         }
         //delete items if delete list is not empty
-
-        itemsToDelete.forEach(answerId => {
-            try {
-                if (!question?.id) return;
-                deleteAnswer(question.id, answerId);
-            } catch (error:any) {
-                console.log(error)
-            }
-        });
-        if (!question?.id) return;
+        deleteItems();
+        
+        console.log(question1);
+        if (!question1?.id) return;
+        addAnswers();
+        console.log('saving answers', items);
         //Saving answers if necessary
-        items.forEach(item => {
-            try {
-                if (item.isEdited) {
-                    addAnswer(item, question.id);
-                }
-            } catch (e:any) {
-                console.log(e);
-            } finally {
-                // closing window
-                handleClose();
-            }
-        })
+        
         handleClose();
     }
 
@@ -95,9 +119,9 @@ function EditQuestionModal({show, title, handleClose, answers, question }:EditQu
     }
     function handleQuestionChange(e:React.ChangeEvent<HTMLElement>) {
        
-       if (!question1) return;
+       //if (!question1) return;
        const target = e.target as HTMLTextAreaElement;
-       setQuestion(prev => question1.isEdited ? ({...prev, question: target.value} as QuestionData) : ({...prev, question: target.value, isEdited: true} as QuestionData));
+       setQuestion(prev => question1?.isEdited ? ({...prev, question: target.value} as QuestionData) : ({...prev, question: target.value, isEdited: true} as QuestionData));
     }
 
     function handleDeleteAnswer(e:React.MouseEvent<HTMLButtonElement>) {
@@ -145,10 +169,7 @@ function EditQuestionModal({show, title, handleClose, answers, question }:EditQu
             setItemsToDelete([]);
         }
     },[]);
-    // React.useEffect(() => {
-    //     console.log('items')
-    //     console.log(items)
-    // },[items])
+
     
    return (
     <ModalForm show={show} title={title} handleClose={handleClose} handleSaveClick={handleSaveClick}>

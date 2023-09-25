@@ -20,14 +20,11 @@ function AssessmentPage() {
 
 
     const handleCloseModal = () => {
+        console.log('close handle 1')
         setShowEdit(false);
         setAnswersData([]);
     }
 
-    useEffect(() => {
-        if(!id) return;
-        getQuestionListByAssessmentId(id).then(res => setAssessment(res));
-    },[id])
 
     useEffect(() => {
         if(!showEdit && id) {

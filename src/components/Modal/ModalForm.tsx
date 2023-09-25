@@ -24,7 +24,7 @@ const ModalForm = ({children, title, show, handleClose, handleSaveClick} : Modal
         </Modal.Body>
         
         <Modal.Footer>
-          <Button variant="secondary" >
+          <Button variant="secondary" onClick={handleClose} >
             Close
           </Button>
           <Button onClick={handleSaveClick} variant="primary" >

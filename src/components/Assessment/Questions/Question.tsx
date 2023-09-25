@@ -29,7 +29,7 @@ function Question({question, qId}:QuestionProps) {
       console.log(e.message)
     }
   }
-  function showAnswers() {
+  function editAnswers() {
     getAnswersList(qId).then(res => {
       
       console.log('answer')
@@ -45,7 +45,7 @@ function Question({question, qId}:QuestionProps) {
       
         <Card className='question__card d-flex justify-content-between p-4 my-2 flex-row container-fluid'>
             <h2>{question}</h2>
-            <button data-toggle="modal" onClick={showAnswers} type="button" className="btn btn-light">Edit</button>
+            <button data-toggle="modal" onClick={editAnswers} type="button" className="btn btn-light">Edit</button>
         </Card>
         <CloseButton className='question__delete ms-3' id={qId} onClick={(e) => handleDeleteQuestion(e)}/>
     
