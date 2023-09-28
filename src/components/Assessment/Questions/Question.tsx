@@ -21,6 +21,8 @@ function Question({question, qId}:QuestionProps) {
     console.log('Close modal');
     setAnswersData([]);
   }
+
+
   function handleDeleteQuestion(e:React.MouseEvent<HTMLButtonElement>) {
     const target = e.target as HTMLButtonElement;
     try {
@@ -29,16 +31,13 @@ function Question({question, qId}:QuestionProps) {
       console.log(e.message)
     }
   }
+
+
   function editAnswers() {
-    getAnswersList(qId).then(res => {
-      
-      console.log('answer')
-      console.log(res);
+      getAnswersList(qId).then(res => {
       setAnswersData(res);
-      
       setShowEdit(true);
     })
-    // console.log('id ='+qId);
   }
   return (
     <div key={qId} className='question d-flex align-items-center justify-content-between'>    

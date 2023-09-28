@@ -1,60 +1,17 @@
-import React, { useEffect, useState } from 'react'
-import { getQuestionListByAssessmentId } from '../redux/api/getData'
-import { useParams } from 'react-router'
+import React from 'react'
 import Conteiner from '../components/Layout/Conteiner'
-import { Button } from 'react-bootstrap'
-import EditQuestionModal from '../components/Assessment/questions/EditQuestionModal'
-import Question from '../components/Assessment/questions/Question'
-import { QuestionData } from '../types/types'
+import QuestionList from '../components/Assessment/QuestionList'
+import NewQuestion from '../components/Assessment/NewQuestion';
+import PageHeader from '../components/Layout/PageHeader';
+
 
 function AssessmentPage() {
-    const [assesment, setAssessment] = useState<QuestionData[]>()
-    const [showEdit, setShowEdit] = React.useState(false);
-    const [answersData,  setAnswersData] = React.useState([]);
-    let { id }  = useParams();
-
-
-    function handleNewQuestion() {
-        setShowEdit(true);
-    }
-
-
-    const handleCloseModal = () => {
-        console.log('close handle 1')
-        setShowEdit(false);
-        setAnswersData([]);
-    }
-
-
-    useEffect(() => {
-        if(!showEdit && id) {
-        getQuestionListByAssessmentId(id).then(res => setAssessment(res));
-        }
-    },[id, showEdit])
-
-    
-    
     return (
         
         <Conteiner layout='dashboard'>
-            <div>Assessment Page</div>
-            <div className='m-4 container-fluid'>
-                {   
-
-                    assesment?.sort((a,b) => a.order - b.order).map(question => {
-                        
-                        return <Question 
-                                key={question.id} 
-                                question={question.question} 
-                                qId={question.id}
-                                />
-                    })
-                }
-                <Button onClick={handleNewQuestion} className='mt-4' variant="outline-primary">+</Button>{' '}
-            </div>
-            {/* add new question */}
-            {showEdit  ? <EditQuestionModal title='Новый вопрос' show={showEdit} handleClose={handleCloseModal} answers={undefined} question={null}/> : null} 
-    
+            <PageHeader tag='h2' text='Assessment Page'></PageHeader>
+            <QuestionList/>
+            <NewQuestion/>
         </Conteiner>
         
   )
