@@ -174,29 +174,52 @@ function EditQuestionModal({show, title, handleClose, answers, question }:EditQu
    return (
     <ModalForm show={show} title={title} handleClose={handleClose} handleSaveClick={handleSaveClick}>
 
-    <Form.Control onChange={(e) => handleQuestionChange(e)} key={question?.id} className="fw-bold" as="textarea" rows={3} placeholder="Текст вопроса" defaultValue={question?.question} />
+    <Form.Control 
+        onChange={(e) => handleQuestionChange(e)} 
+        key={question?.id} 
+        className="fw-bold" 
+        as="textarea" 
+        rows={3} 
+        placeholder="Текст вопроса" 
+        defaultValue={question?.question} 
+    />
                     <br/>
-            <Form>
-                {items.map((data,index) => {
-                
-                    return (
-                        <div key={index} className='d-flex align-items-center justify-content-between '>
-                            <Form.Check
-                                onChange={(e) => handleCorrectChange(e)}
-                                name="group1"
-                                type='radio'
-                                className='mb-3 me-3'
-                                data-id={index}
-                                checked={data.correct}
-                                id={data.id}
-                            />
-                            <Form.Control className='mb-3 me-3' data-id={index} id={data.id} type="text" placeholder="answer" onChange={(e) => handleChange(e)} value={data.answer} />
-                            <CloseButton className='mb-3' data-id={index} id={data.id} onClick={(e) => handleDeleteAnswer(e)}/>
-                        </div>
-                    )
-                })}
-            </Form>
-            <Button onClick={handleAddClick} variant="outline-primary">+</Button>
+    <Form>
+        {items.map((data,index) => {
+        
+            return (
+                <div key={index} className='d-flex align-items-center justify-content-between '>
+                    <Form.Check
+                        onChange={(e) => handleCorrectChange(e)}
+                        name="group1"
+                        type='radio'
+                        className='mb-3 me-3'
+                        data-id={index}
+                        checked={data.correct}
+                        id={data.id}
+                    />
+                    <Form.Control 
+                    className='mb-3 me-3' 
+                    data-id={index} id={data.id} 
+                    type="text" 
+                    placeholder="answer" 
+                    onChange={(e) => handleChange(e)} 
+                    value={data.answer} 
+                    />
+                    <CloseButton 
+                    className='mb-3' 
+                    data-id={index} 
+                    id={data.id} 
+                    onClick={(e) => handleDeleteAnswer(e)}
+                    />
+                </div>
+            )
+        })}
+    </Form>
+    <Button 
+        onClick={handleAddClick} 
+        variant="outline-primary">+
+    </Button>
     </ModalForm>
 
   )

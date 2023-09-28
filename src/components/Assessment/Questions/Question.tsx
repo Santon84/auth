@@ -15,13 +15,12 @@ function Question({question, qId}:QuestionProps) {
   
   const [showEdit, setShowEdit] = React.useState(false);
   const [answersData,  setAnswersData] = React.useState<AnswerData[]>([]);
-  
-  const handleCloseModal = () => {
+
+
+  function handleCloseModal () {
     setShowEdit(false);
-    console.log('Close modal');
     setAnswersData([]);
   }
-
 
   function handleDeleteQuestion(e:React.MouseEvent<HTMLButtonElement>) {
     const target = e.target as HTMLButtonElement;
@@ -47,9 +46,6 @@ function Question({question, qId}:QuestionProps) {
             <button data-toggle="modal" onClick={editAnswers} type="button" className="btn btn-light">Edit</button>
         </Card>
         <CloseButton className='question__delete ms-3' id={qId} onClick={(e) => handleDeleteQuestion(e)}/>
-    
-    
-        
     {showEdit  ? <EditQuestionModal key={qId} title="Редактировать вопрос" show={showEdit} handleClose={handleCloseModal} answers={answersData} question={{question: question, id: qId, order: 0}} /> : null}
     </div>
 
