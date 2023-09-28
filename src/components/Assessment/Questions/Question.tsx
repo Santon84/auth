@@ -41,8 +41,8 @@ function Question({question, qId}:QuestionProps) {
   return (
     <div key={qId} className='question d-flex align-items-center justify-content-between'>    
       
-        <Card className='question__card d-flex justify-content-between p-4 my-2 flex-row container-fluid'>
-            <h2>{question}</h2>
+        <Card className='question__card d-flex justify-content-between align-items-center p-3 my-2 flex-row container-fluid'>
+            <h6>{question}</h6>
             <button data-toggle="modal" onClick={editAnswers} type="button" className="btn btn-light">Edit</button>
         </Card>
         <CloseButton className='question__delete ms-3' id={qId} onClick={(e) => handleDeleteQuestion(e)}/>
