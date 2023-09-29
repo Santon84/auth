@@ -1,8 +1,9 @@
+import { AssessmentData } from "types/types";
 import * as api from "../api/assessmentAPI";
 import * as types from "../types/assessmentTypes";
 import { Dispatch, AnyAction } from "@reduxjs/toolkit";
 
-export const getAssessmentsActions = () => async (dispatch: Dispatch<AnyAction>) => {
+export const getAssessmentsAction = () => async (dispatch: Dispatch<AnyAction>) => {
    
     try {
         dispatch({
@@ -27,6 +28,31 @@ export const getAssessmentsActions = () => async (dispatch: Dispatch<AnyAction>)
     }
   };
 
+  export const createAssessmentActions = (newAssessment:AssessmentData) => async (dispatch: Dispatch<AnyAction>) => {
+   
+    try {
+        dispatch({
+            type: types.CREATE_ASSESSMENT_START,
+        });  
+        const { error , data } = await api.createAssessment(newAssessment);
+
+        if (error) {
+            throw new Error(error);
+        }
+  
+        dispatch({
+            type: types.CREATE_ASSESSMENT_SUCCESS,
+            payload: data,
+          });
+    } catch (error) {
+        dispatch({
+            type: types.CREATE_ASSESSMENT_FAIL,
+            payload: error,
+          });
+       console.log(error);
+    }
+  };
 
 
-export default getAssessmentsActions
+
+export default getAssessmentsAction

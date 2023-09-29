@@ -20,4 +20,6 @@ export type AssessmentData = {
     description: string,
     isEdited?: boolean,
     published?: boolean,
+    url?: string,
+    creation_date: string
 }

@@ -27,6 +27,7 @@ const assessmentReducer = (state = initialState, action:PayloadAction<Assessment
   
     switch (type) {
         case types.GET_ASSESSMENTS_START:
+        case types.CREATE_ASSESSMENT_START:
             return {
                 ...state,
                 loading : true,
@@ -35,6 +36,13 @@ const assessmentReducer = (state = initialState, action:PayloadAction<Assessment
             return {
                 ...state,
                 items : payload,
+                loading : false,
+            }
+        case types.CREATE_ASSESSMENT_SUCCESS:
+            
+            return {
+                ...state,
+                items : [payload, ...state.items],
                 loading : false,
             }
         default:
