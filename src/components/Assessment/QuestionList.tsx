@@ -3,10 +3,10 @@ import Question from './questions/Question'
 import { useParams } from 'react-router';
 import { getQuestionListByAssessmentId } from '../../redux/api/getData';
 import { QuestionData } from '../../types/types';
+import { useAuth } from 'context/AuthContext';
 
-
-function QuestionList() {
-
+function QuestionList({assessmentId = ''}) {
+    const {currentUser} = useAuth();
     const [assesment, setAssessment] = useState<QuestionData[]>()
     // const [showEdit, setShowEdit] = React.useState(false);
     let { id }  = useParams();
@@ -14,7 +14,7 @@ function QuestionList() {
 
     useEffect(() => {
         if(id) {
-            getQuestionListByAssessmentId(id).then(res => setAssessment(res));
+            getQuestionListByAssessmentId(id,currentUser.uid ).then(res => setAssessment(res));
         }
     },[id])
 
@@ -27,6 +27,7 @@ function QuestionList() {
                         key={question.id} 
                         question={question.question} 
                         qId={question.id}
+                        assessmentId={id || ''}
                         />
             })
         }

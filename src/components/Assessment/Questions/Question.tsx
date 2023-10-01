@@ -8,10 +8,11 @@ import { AnswerData } from '../../../types/types';
 
 type QuestionProps = {
   question: string, 
-  qId: string
+  qId: string,
+  assessmentId: string,
 }
 
-function Question({question, qId}:QuestionProps) {
+function Question({question, qId, assessmentId}:QuestionProps) {
   
   const [showEdit, setShowEdit] = React.useState(false);
   const [answersData,  setAnswersData] = React.useState<AnswerData[]>([]);
@@ -25,7 +26,7 @@ function Question({question, qId}:QuestionProps) {
   function handleDeleteQuestion(e:React.MouseEvent<HTMLButtonElement>) {
     const target = e.target as HTMLButtonElement;
     try {
-      deleteQuestion(target.id);
+      deleteQuestion({questionId : target.id, userId : 'a', assessmentId : 'dfd'});
     } catch (e:any) {
       console.log(e.message)
     }
@@ -46,7 +47,7 @@ function Question({question, qId}:QuestionProps) {
             <button data-toggle="modal" onClick={editAnswers} type="button" className="btn btn-light">Edit</button>
         </Card>
         <CloseButton className='question__delete ms-3' id={qId} onClick={(e) => handleDeleteQuestion(e)}/>
-    {showEdit  ? <EditQuestionModal key={qId} title="Редактировать вопрос" show={showEdit} handleClose={handleCloseModal} answers={answersData} question={{question: question, id: qId, order: 0}} /> : null}
+    {showEdit  ? <EditQuestionModal assessmentId={assessmentId} key={qId} title="Редактировать вопрос" show={showEdit} handleClose={handleCloseModal} answers={answersData} question={{question: question, id: qId, order: 0}} /> : null}
     </div>
 
   )

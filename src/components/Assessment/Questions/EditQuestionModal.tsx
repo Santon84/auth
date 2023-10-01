@@ -5,7 +5,7 @@ import { addAnswer, addQuestion, deleteAnswer } from '../../../redux/api/setData
 import CloseButton from 'react-bootstrap/CloseButton';
 import ModalForm from '../../Modal/ModalForm';
 import { AnswerData, QuestionData } from '../../../types/types';
-
+import { useAuth } from 'context/AuthContext';
 
 type EditQuestionModalProps = {
 
@@ -13,11 +13,21 @@ type EditQuestionModalProps = {
     title: string, 
     handleClose: () => void,
     answers: AnswerData[] | undefined,
-    question: QuestionData | null
+    question: QuestionData | null,
+    assessmentId : string,
 
 }
 
-function EditQuestionModal({show, title, handleClose, answers, question }:EditQuestionModalProps) {
+function EditQuestionModal({
+    show, 
+    title, 
+    handleClose, 
+    answers, 
+    question,
+    assessmentId
+     }:EditQuestionModalProps) {
+
+    const {currentUser} = useAuth();
     const [items, setItems] = React.useState<AnswerData[]>([]);
     const [itemsToDelete, setItemsToDelete] = React.useState<string[]>([]);
     const [question1, setQuestion] = React.useState<QuestionData>();
@@ -46,7 +56,7 @@ function EditQuestionModal({show, title, handleClose, answers, question }:EditQu
 
                 if (item.isEdited) {
 
-                    addAnswer(item, question1.id);
+                    addAnswer({answer:item, id:question1.id});
                 }
             } catch (e:any) {
                 console.log(e);
@@ -64,7 +74,7 @@ function EditQuestionModal({show, title, handleClose, answers, question }:EditQu
                 if (!question1.id) {
                     console.log('if id')
                     // if(!a?.id) return;
-                    await addQuestion(question1).then((id) => { 
+                    await addQuestion({question: question1 , assessmentId: assessmentId, userId:currentUser.uid}).then((id) => { 
                         
                         setQuestion(prev => {
                             console.log('setQuestion');
@@ -76,7 +86,7 @@ function EditQuestionModal({show, title, handleClose, answers, question }:EditQu
                     });
                     
                 } else {
-                    addQuestion(question1).then(res => console.log(res))
+                    addQuestion({question: question1 , assessmentId: assessmentId, userId:currentUser.uid}).then(res => console.log(res))
                 }
             }
         }

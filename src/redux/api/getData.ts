@@ -30,9 +30,9 @@ import { AnswerData, AssessmentData, QuestionData } from '../../types/types';
 //     console.log(data)
 //     return data;
 // }
-export async function getQuestionListByAssessmentId(id:string) {
-    const todoCollection = collection(db, 'user-id', 'j8XOynhNdZwoVUkJgtan', 'assessments', id, 'questions');
-    
+export async function getQuestionListByAssessmentId(assessmentId:string, userId:string) {
+    const todoCollection = collection(db, 'user-id', userId, 'assessments', assessmentId, 'questions');
+    console.log(assessmentId, userId);
     const toDoSnapshot = await getDocs(todoCollection);
     const data = toDoSnapshot.docs.map(doc => {
         return (({...doc.data(),id: doc.id}) as QuestionData)

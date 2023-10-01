@@ -3,13 +3,13 @@ import * as api from "../api/assessmentAPI";
 import * as types from "../types/assessmentTypes";
 import { Dispatch, AnyAction } from "@reduxjs/toolkit";
 
-export const getAssessmentsAction = () => async (dispatch: Dispatch<AnyAction>) => {
+export const getAssessmentsAction = (userId:string) => async (dispatch: Dispatch<AnyAction>) => {
    
     try {
         dispatch({
             type: types.GET_ASSESSMENTS_START,
         });  
-        const { data, error } = await api.getAssessmentList();
+        const { data, error } = await api.getAssessmentList(userId);
 
         if (error) {
             throw new Error(error);
@@ -28,13 +28,13 @@ export const getAssessmentsAction = () => async (dispatch: Dispatch<AnyAction>) 
     }
   };
 
-  export const createAssessmentActions = (newAssessment:AssessmentData) => async (dispatch: Dispatch<AnyAction>) => {
+  export const createAssessmentActions = (newAssessment:AssessmentData, userId:string) => async (dispatch: Dispatch<AnyAction>) => {
    
     try {
         dispatch({
             type: types.CREATE_ASSESSMENT_START,
         });  
-        const { error , data } = await api.createAssessment(newAssessment);
+        const { error , data } = await api.createAssessment(newAssessment, userId);
 
         if (error) {
             throw new Error(error);

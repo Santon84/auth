@@ -7,7 +7,7 @@ type addAnswerProps = {
     id: string,
 }
 
-export async function addAnswer(answer:AnswerData, id: string) {
+export async function addAnswer({answer, id}:addAnswerProps) {
 
     if (answer.answer === '') return;
     if (!answer.id) {
@@ -31,11 +31,6 @@ export async function addAnswer(answer:AnswerData, id: string) {
     }
 
 }
-/**
- * 
- * @param {string} questionID 
- * @param {string} answerId 
- */
 
 
 export async function deleteAnswer(questionID:string, answerId:string) {
@@ -45,20 +40,35 @@ export async function deleteAnswer(questionID:string, answerId:string) {
 }
 
 
-type DeleteQuestionProps = string;
-export async function deleteQuestion(questionID:DeleteQuestionProps) {
+type DeleteQuestionProps = {
 
-    const docRef = doc(db, 'user-id', 'j8XOynhNdZwoVUkJgtan', 'assessments', 'FXVSRIIlo5oTmhHFF6TF', 'questions', questionID);
+    questionId: string,
+    userId: string,
+    assessmentId: string
+    
+}
+
+export async function deleteQuestion({questionId, userId, assessmentId}:DeleteQuestionProps) {
+
+    const docRef = doc(db, 'user-id', userId, 'assessments', assessmentId , 'questions', questionId);
     await deleteDoc(docRef);
+
 }
 
 
-export async function addQuestion(question:QuestionData) {
+type addQuestionProps = {
 
+    question: QuestionData,
+    userId: string,
+    assessmentId: string,
+}
+
+export async function addQuestion({question, userId, assessmentId}:addQuestionProps) {
+    console.log(question, userId, assessmentId);
     if (question.question === '') return;
     if (!question.id) {
         // ADD Question
-        const newDocRef = collection(db, 'user-id', 'j8XOynhNdZwoVUkJgtan', 'assessments', 'FXVSRIIlo5oTmhHFF6TF', 'questions');
+        const newDocRef = collection(db, 'user-id', userId, 'assessments', assessmentId, 'questions');
 
         const { id } = await addDoc(newDocRef, {
         question: question.question,
@@ -69,7 +79,7 @@ export async function addQuestion(question:QuestionData) {
     else {
         // UPDATE Question
 
-        const docRef = doc(db, 'user-id', 'j8XOynhNdZwoVUkJgtan', 'assessments', 'FXVSRIIlo5oTmhHFF6TF', 'questions', question.id);
+        const docRef = doc(db, 'user-id', userId, 'assessments', assessmentId, 'questions', question.id);
         await updateDoc(docRef, {
             question: question.question,
             order: 0

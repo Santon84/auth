@@ -1,15 +1,14 @@
 
 import { db } from '../../firebase';
-import { collection, getDocs, doc, addDoc} from 'firebase/firestore';
-import { AnswerData, AssessmentData, QuestionData } from '../../types/types';
-import { useAuth } from 'context/AuthContext';
+import { collection, getDocs, addDoc} from 'firebase/firestore';
+import { AssessmentData } from '../../types/types';
 
 
 
-export const getAssessmentList = async() => {
+export const getAssessmentList = async(userId:string) => {
 
     try {
-        const todoCollection = collection(db, '/user-id/754axqUKx4TxemuHjCS8efPlyQE3/assessments/');
+        const todoCollection = collection(db, `/user-id/${userId}/assessments/`);
         const toDoSnapshot = await getDocs(todoCollection);
         const data : AssessmentData[] = toDoSnapshot.docs.map(doc => {
             return (({...doc.data(),id: doc.id}) as AssessmentData)
@@ -22,7 +21,7 @@ export const getAssessmentList = async() => {
 }
 
 
-export async function createAssessment(assessment:AssessmentData) {
+export async function createAssessment(assessment:AssessmentData, userId:string) {
 
     if (assessment.name === '') return {error: null, id: null};
     assessment = {...assessment,
@@ -31,7 +30,7 @@ export async function createAssessment(assessment:AssessmentData) {
     }   
     try {
         // ADD Assessment
-        const rootRef = collection(db, 'user-id', '754axqUKx4TxemuHjCS8efPlyQE3', 'assessments');
+        const rootRef = collection(db, 'user-id', userId, 'assessments');
 
         const { id }  = await addDoc(rootRef, assessment)
         return {error: null, data: {...assessment, id: id }};

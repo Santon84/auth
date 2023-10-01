@@ -5,36 +5,25 @@ import getAssessmentsAction from 'redux/actions/assessmentActions';
 import { RootState } from 'redux/store';
 import Spinner from 'components/Layout/Spinner';
 import Assessment from './Assessment';
-import { Button } from 'react-bootstrap';
-import { createAssessmentActions } from 'redux/actions/assessmentActions';
+   
 
-function AssessmentList() {
-    const dispatch:any = useDispatch();
+
+
+function AssessmentList({currentUser}:any) {
   const {items = [], loading} = useSelector((state:RootState) => state.assessment);
   
-  function handleClick() {
-    dispatch(createAssessmentActions({
-      name: 'new assessment', 
-      description: 'New assessment description'
-    } as AssessmentData))
-
-  }
+  const dispatch:any = useDispatch();
 
   useEffect(() => {
-    dispatch(getAssessmentsAction());
-  },[dispatch]);
-
-  useEffect(() => {
-    console.log(items)
-  },[loading]);
-  
+    dispatch(getAssessmentsAction(currentUser.uid));
+  },[dispatch, currentUser.uid]);
 
   
   if (loading) return <Spinner />;
+
   return (
     <>
-    <Button onClick={handleClick}>Создать новый тест</Button>
-    <h5 className='mt-4'>Список тестов</h5>
+
     {
         items?.map((assessment:AssessmentData) => {
         return <Assessment 

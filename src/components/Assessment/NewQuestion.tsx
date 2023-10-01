@@ -2,8 +2,12 @@ import React from 'react'
 import { Button } from 'react-bootstrap'
 import EditQuestionModal from './questions/EditQuestionModal';
 
+type NewQuestionProps = {
+  assessmentId: string
+}
 
-function NewQuestion() {
+function NewQuestion({assessmentId}:NewQuestionProps) {
+  console.log(assessmentId);
     const [showEdit, setShowEdit] = React.useState(false);
     function handleNewQuestion() {
         setShowEdit(true);
@@ -18,7 +22,7 @@ function NewQuestion() {
   return (
     <>
     <Button onClick={handleNewQuestion} className='mt-4' variant="outline-primary">+</Button>{' '}
-    {showEdit  ? <EditQuestionModal title='Новый вопрос' show={showEdit} handleClose={handleCloseModal} answers={undefined} question={null}/> : null} 
+    {showEdit  ? <EditQuestionModal assessmentId={assessmentId} title='Новый вопрос' show={showEdit} handleClose={handleCloseModal} answers={undefined} question={null}/> : null} 
     </>
   )
 }

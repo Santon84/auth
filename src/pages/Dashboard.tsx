@@ -1,9 +1,7 @@
 import Conteiner from '../components/Layout/Conteiner';
-import { Button } from 'react-bootstrap';
-import AssessmentList from '../components/Dashboard/Assessment/AssessmentList';
+import AssessmentUnit from '../components/Dashboard/Assessment/AssessmentUnit';
 import PageHeader from '../components/Layout/PageHeader';
-import { createAssessment } from 'redux/api/assessmentAPI';
-import { AssessmentData } from 'types/types';
+
 
 
 export default function Dashboard() {
@@ -12,7 +10,7 @@ export default function Dashboard() {
     <Conteiner layout='dashboard'>
       <PageHeader tag='h2' text='Dashboard'></PageHeader>
       
-      <AssessmentList/>
+      <AssessmentUnit/>
     </Conteiner>
   )
 }
