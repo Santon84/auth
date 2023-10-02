@@ -7,7 +7,7 @@ import ModalForm from '../../Modal/ModalForm';
 import { AnswerData, QuestionData } from '../../../types/types';
 import { useAuth } from 'context/AuthContext';
 import { useDispatch } from 'react-redux';
-import { createQuestionAction } from 'redux/actions/questionActions';
+import { createQuestionAction, updateQuestionAction } from 'redux/actions/questionActions';
 
 
 type EditQuestionModalProps = {
@@ -94,7 +94,7 @@ function EditQuestionModal({
                     // });
                     
                 } else {
-                    
+                    dispatch(updateQuestionAction({question: question1 , assessmentId: assessmentId, userId:currentUser.uid}))
                 }
             }}
 
@@ -205,7 +205,7 @@ function EditQuestionModal({
         placeholder="Текст вопроса" 
         defaultValue={question?.question} 
     />
-                    <br/>
+    <br/>
     <Form>
         {answerList.map((data,index) => {
         

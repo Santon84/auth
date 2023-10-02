@@ -23,10 +23,11 @@ const initialState: IQuestionState = {
 
 }
 
-const questionReducer = (state = initialState, action:PayloadAction<QuestionData> | PayloadAction<string>) => {
+const questionReducer = (state = initialState, action:PayloadAction<QuestionData>) => {
     const { type, payload } = action;
   
     switch (type) {
+        case types.UPDATE_QUESTION_START:
         case types.CREATE_QUESTION_START:
         case types.DELETE_QUESTION_START:
         case types.GET_QUESTIONS_START:
@@ -43,7 +44,7 @@ const questionReducer = (state = initialState, action:PayloadAction<QuestionData
         case types.DELETE_QUESTION_SUCCESS:
             return {
                 ...state,
-                items : state.items.filter(item => item.id !== payload),
+                items : state.items.filter(item => item.id !== payload.id),
                 loading : false,
             }
         case types.CREATE_QUESTION_SUCCESS:
@@ -52,6 +53,12 @@ const questionReducer = (state = initialState, action:PayloadAction<QuestionData
                 items : [...state.items, payload],
                 loading : false,
             }
+        case types.UPDATE_QUESTION_SUCCESS:
+        return {
+            ...state,
+            items : state.items.map(item => item.id === payload.id ? {...item, question : payload.question} : item),
+            loading : false,
+        }
         default:
             return state;
     }

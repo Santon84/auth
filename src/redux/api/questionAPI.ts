@@ -1,5 +1,5 @@
 import { db } from '../../firebase';
-import { collection, getDocs, doc, deleteDoc, addDoc} from 'firebase/firestore';
+import { collection, getDocs, doc, deleteDoc, addDoc , updateDoc} from 'firebase/firestore';
 import { AnswerData, AssessmentData, QuestionData } from '../../types/types';
 
 
@@ -73,6 +73,26 @@ export async function createQuestion({question, userId, assessmentId}:createQues
         //     })
         //     return question.id
         // }
+
+    catch(e: any) {
+        return {error: e, data: null};
+    }
+    
+
+}
+
+
+export async function updateQuestion({question, userId, assessmentId}:createQuestionProps) {
+
+    try {
+    
+        const docRef = doc(db, 'user-id', userId, 'assessments', assessmentId, 'questions', question.id);
+        await updateDoc(docRef, {
+            question: question.question,
+            order: 0
+        })
+        return {error: null, data: question};
+    }
 
     catch(e: any) {
         return {error: e, data: null};

@@ -44,7 +44,7 @@ export const getQuestionListAction = (assessmentId:string, userId:string) => asy
   
         dispatch({
             type: types.DELETE_QUESTION_SUCCESS,
-            payload: id,
+            payload: {id: id},
           });
     } catch (error) {
         dispatch({
@@ -75,6 +75,33 @@ export const getQuestionListAction = (assessmentId:string, userId:string) => asy
     } catch (error) {
         dispatch({
             type: types.CREATE_QUESTION_FAIL,
+            payload: error,
+          });
+       console.log(error);
+    }
+    
+  };
+
+  export const updateQuestionAction = ({question, assessmentId, userId}:createQuestionProps) => async (dispatch: Dispatch<AnyAction>) => {
+    
+    try {
+        dispatch({
+            type: types.UPDATE_QUESTION_START,
+        });  
+        const { data, error } = await api.updateQuestion({assessmentId: assessmentId, userId:userId, question: question});
+
+        if (error) {
+            throw new Error(error);
+        }
+  
+        dispatch({
+            type: types.UPDATE_QUESTION_SUCCESS,
+            payload: data,
+          });
+          return data;
+    } catch (error) {
+        dispatch({
+            type: types.UPDATE_QUESTION_FAIL,
             payload: error,
           });
        console.log(error);
