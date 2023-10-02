@@ -3,8 +3,9 @@ import * as api from "../api/assessmentAPI";
 import * as types from "../types/assessmentTypes";
 import { Dispatch, AnyAction } from "@reduxjs/toolkit";
 
+
 export const getAssessmentsAction = (userId:string) => async (dispatch: Dispatch<AnyAction>) => {
-   
+    
     try {
         dispatch({
             type: types.GET_ASSESSMENTS_START,
@@ -53,6 +54,26 @@ export const getAssessmentsAction = (userId:string) => async (dispatch: Dispatch
     }
   };
 
+  export const setCurrentAssessmentAction = (assessmentId:string) => async (dispatch: Dispatch<AnyAction>) => {
+    
+    try {
+        dispatch({
+            type: types.SET_CURRENT_ASSESSMENT_START,
+        });  
+        //const { data, error } = await api.getAssessmentList(userId);
 
+   
+        dispatch({
+            type: types.SET_CURRENT_ASSESSMENT_SUCCESS,
+            payload: assessmentId,
+          });
+    } catch (error) {
+        dispatch({
+            type: types.SET_CURRENT_ASSESSMENT_FAIL,
+            payload: error,
+          });
+       console.log(error);
+    }
+  };
 
 export default getAssessmentsAction

@@ -1,11 +1,14 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { addAnswer, addQuestion, deleteAnswer } from '../../../redux/api/setData';
+import { addAnswer, deleteAnswer } from '../../../redux/api/setData';
 import CloseButton from 'react-bootstrap/CloseButton';
 import ModalForm from '../../Modal/ModalForm';
 import { AnswerData, QuestionData } from '../../../types/types';
 import { useAuth } from 'context/AuthContext';
+import { useDispatch } from 'react-redux';
+import { createQuestionAction } from 'redux/actions/questionActions';
+
 
 type EditQuestionModalProps = {
 
@@ -13,7 +16,7 @@ type EditQuestionModalProps = {
     title: string, 
     handleClose: () => void,
     answers: AnswerData[] | undefined,
-    question: QuestionData | null,
+    question: QuestionData | undefined,
     assessmentId : string,
 
 }
@@ -26,15 +29,16 @@ function EditQuestionModal({
     question,
     assessmentId
      }:EditQuestionModalProps) {
+    
 
+    const dispatch:any = useDispatch();
     const {currentUser} = useAuth();
-    const [items, setItems] = React.useState<AnswerData[]>([]);
+    const [answerList, setAnswerList] = React.useState<AnswerData[]>([]);
     const [itemsToDelete, setItemsToDelete] = React.useState<string[]>([]);
     const [question1, setQuestion] = React.useState<QuestionData>();
 
     function handleAddClick() {
-        console.log(items);
-        setItems(prev => [...prev, {answer: '', correct: false, id: ''}]);
+        setAnswerList(prev => [...prev, {answer: '', correct: false, id: ''}]);
     }
 
     async function deleteItems() {
@@ -49,9 +53,9 @@ function EditQuestionModal({
         });
     }
     async function addAnswers() {
-        if (!items || !question1?.id) return;
+        if (!answerList || !question1?.id) return;
 
-        items.forEach(item => {
+        answerList.forEach(item => {
             try {
 
                 if (item.isEdited) {
@@ -66,30 +70,34 @@ function EditQuestionModal({
 
 
     async function handleSaveClick() {
-        console.log('click to save');
-        console.log(question1);
+       
         //saving question if changed
         try {
             if(question1?.isEdited) {
                 if (!question1.id) {
-                    console.log('if id')
+                    console.log('if new')
+                    dispatch(createQuestionAction({question: question1 , assessmentId: assessmentId, userId:currentUser.uid}))
+
                     // if(!a?.id) return;
-                    await addQuestion({question: question1 , assessmentId: assessmentId, userId:currentUser.uid}).then((id) => { 
+                    // .then(response => { 
                         
-                        setQuestion(prev => {
-                            console.log('setQuestion');
-                            console.log(({...prev, id: id}))
-                            // TODO resolve this problem
-                           return ({...prev, id: id}) as QuestionData
-                        } );
-                        console.log('after setQuestion',question1);
-                    });
+                    //     setQuestion(prev => {
+                    //         console.log('setQuestion');
+                    //         console.log(({...prev, id: response.id}))
+                    //         // TODO resolve this problem
+                    //        return ({...prev, id: id}) as QuestionData
+                    //     } );
+                    
+                
+                    // await addQuestion()
+                    //     console.log('after setQuestion',question1);
+                    // });
                     
                 } else {
-                    addQuestion({question: question1 , assessmentId: assessmentId, userId:currentUser.uid}).then(res => console.log(res))
+                    
                 }
-            }
-        }
+            }}
+
         catch (e:any) {
             console.log(e);
         }
@@ -97,9 +105,9 @@ function EditQuestionModal({
         deleteItems();
         
         console.log(question1);
-        if (!question1?.id) return;
+        // if (!question1?.id) return;
         addAnswers();
-        console.log('saving answers', items);
+        console.log('saving answers', answerList);
         //Saving answers if necessary
         
         handleClose();
@@ -107,12 +115,12 @@ function EditQuestionModal({
 
     function handleCorrectChange(e:React.ChangeEvent<HTMLElement>) {
         // removing all marks
-        setItems(prev => prev.map(item => {
+        setAnswerList(prev => prev.map(item => {
             if (item.correct) return {...item, correct: false, isEdited: true}
             else return item;
         }))
         // ading new correct marks
-        setItems(prev => prev.map((item,index) => {
+        setAnswerList(prev => prev.map((item,index) => {
             if (item.id === e.target.id) {
                 // if item don't have an id
                 if (index === Number(e.target.getAttribute('data-id'))){
@@ -137,16 +145,16 @@ function EditQuestionModal({
     function handleDeleteAnswer(e:React.MouseEvent<HTMLButtonElement>) {
         const target = e.target as HTMLButtonElement;
         if (!target.id) {
-            setItems(prev => prev.filter((item,index) => index !== Number(target.getAttribute('data-id'))));
+            setAnswerList(prev => prev.filter((item,index) => index !== Number(target.getAttribute('data-id'))));
         } else {
         
             setItemsToDelete(prev => [...prev, target.id]  );
-            setItems(prev => prev.filter(item => item.id !== target.id));
+            setAnswerList(prev => prev.filter(item => item.id !== target.id));
         }
     }
     function handleChange(e:React.ChangeEvent<HTMLElement>) {
         const target = e.target as HTMLTextAreaElement;
-        setItems(prev => prev.map((item,index) => {
+        setAnswerList(prev => prev.map((item,index) => {
           
 
             if (item.id === target.id) {
@@ -165,16 +173,16 @@ function EditQuestionModal({
         })) 
     }
 
-        React.useEffect(() => {
+    React.useEffect(() => {
             //if no question means new question
             if (!question) return;
             setQuestion(question);
             //no answers maybe at new question or existing
             if (!answers) return;
-            setItems(answers);
+            setAnswerList(answers);
             
         return () => {
-            setItems([]);
+            setAnswerList([]);
             setQuestion(undefined);
             setItemsToDelete([]);
         }
@@ -182,7 +190,11 @@ function EditQuestionModal({
 
     
    return (
-    <ModalForm show={show} title={title} handleClose={handleClose} handleSaveClick={handleSaveClick}>
+    <ModalForm 
+    show={show} 
+    title={title} 
+    handleClose={handleClose} 
+    handleSaveClick={handleSaveClick}>
 
     <Form.Control 
         onChange={(e) => handleQuestionChange(e)} 
@@ -195,7 +207,7 @@ function EditQuestionModal({
     />
                     <br/>
     <Form>
-        {items.map((data,index) => {
+        {answerList.map((data,index) => {
         
             return (
                 <div key={index} className='d-flex align-items-center justify-content-between '>

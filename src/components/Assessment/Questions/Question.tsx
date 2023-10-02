@@ -3,17 +3,19 @@ import { Card, CloseButton } from 'react-bootstrap'
 import './Question.css'
 import { getAnswersList } from '../../../redux/api/getData';
 import EditQuestionModal from './EditQuestionModal';
-import { deleteQuestion } from '../../../redux/api/setData';
 import { AnswerData } from '../../../types/types';
+import { deleteQuestionAction } from 'redux/actions/questionActions';
+import { useDispatch } from 'react-redux';
 
 type QuestionProps = {
   question: string, 
   qId: string,
   assessmentId: string,
+  userId: string,
 }
 
-function Question({question, qId, assessmentId}:QuestionProps) {
-  
+function Question({question, qId, assessmentId, userId}:QuestionProps) {
+  const dispatch:any = useDispatch();
   const [showEdit, setShowEdit] = React.useState(false);
   const [answersData,  setAnswersData] = React.useState<AnswerData[]>([]);
 
@@ -25,10 +27,12 @@ function Question({question, qId, assessmentId}:QuestionProps) {
 
   function handleDeleteQuestion(e:React.MouseEvent<HTMLButtonElement>) {
     const target = e.target as HTMLButtonElement;
-    try {
-      deleteQuestion({questionId : target.id, userId : 'a', assessmentId : 'dfd'});
-    } catch (e:any) {
-      console.log(e.message)
+    if (window.confirm("Do you really want to delete?")) {
+        try {
+          dispatch(deleteQuestionAction({questionId : target.id, userId : userId, assessmentId : assessmentId}))
+        } catch (e:any) {
+          console.log(e.message)
+        }
     }
   }
 
@@ -46,8 +50,21 @@ function Question({question, qId, assessmentId}:QuestionProps) {
             <h6>{question}</h6>
             <button data-toggle="modal" onClick={editAnswers} type="button" className="btn btn-light">Edit</button>
         </Card>
-        <CloseButton className='question__delete ms-3' id={qId} onClick={(e) => handleDeleteQuestion(e)}/>
-    {showEdit  ? <EditQuestionModal assessmentId={assessmentId} key={qId} title="Редактировать вопрос" show={showEdit} handleClose={handleCloseModal} answers={answersData} question={{question: question, id: qId, order: 0}} /> : null}
+        <CloseButton 
+          className='question__delete ms-3' 
+          id={qId} 
+          onClick={(e) => handleDeleteQuestion(e)}
+        />
+    {showEdit  ? <EditQuestionModal 
+                  assessmentId={assessmentId} 
+                  key={qId} 
+                  title="Редактировать вопрос" 
+                  show={showEdit} 
+                  handleClose={handleCloseModal} 
+                  answers={answersData} 
+                  question={{question: question, id: qId, order: 0}} 
+                  /> 
+    : null}
     </div>
 
   )

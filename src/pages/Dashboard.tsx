@@ -9,7 +9,6 @@ export default function Dashboard() {
   return (
     <Conteiner layout='dashboard'>
       <PageHeader tag='h2' text='Dashboard'></PageHeader>
-      
       <AssessmentUnit/>
     </Conteiner>
   )

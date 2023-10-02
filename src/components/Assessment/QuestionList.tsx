@@ -1,33 +1,38 @@
-import React, {useEffect, useState} from 'react'
+import {useEffect} from 'react'
 import Question from './questions/Question'
-import { useParams } from 'react-router';
-import { getQuestionListByAssessmentId } from '../../redux/api/getData';
 import { QuestionData } from '../../types/types';
 import { useAuth } from 'context/AuthContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { getQuestionListAction } from 'redux/actions/questionActions';
+import { RootState } from 'redux/store';
+import Spinner from 'components/Layout/Spinner';
 
-function QuestionList({assessmentId = ''}) {
+
+
+function QuestionList( {assessmentId = ''}) {
     const {currentUser} = useAuth();
-    const [assesment, setAssessment] = useState<QuestionData[]>()
-    // const [showEdit, setShowEdit] = React.useState(false);
-    let { id }  = useParams();
-
-
+    const {uid} = currentUser;
+    const {items = [], loading} = useSelector((state:RootState) => state.question);
+    const dispatch:any = useDispatch();
     useEffect(() => {
-        if(id) {
-            getQuestionListByAssessmentId(id,currentUser.uid ).then(res => setAssessment(res));
-        }
-    },[id])
+      dispatch(getQuestionListAction(assessmentId, uid));
+    },[dispatch, assessmentId, uid]);
+  
 
+
+    if (!assessmentId) return null;
+    if (loading) return <Spinner />;
 
   return (
     <>
-        {   
-            assesment?.sort((a,b) => a.order - b.order).map(question => {
+        {  
+            items?.map((question:QuestionData) => {
                 return <Question 
                         key={question.id} 
                         question={question.question} 
                         qId={question.id}
-                        assessmentId={id || ''}
+                        assessmentId={assessmentId}
+                        userId = {uid}
                         />
             })
         }

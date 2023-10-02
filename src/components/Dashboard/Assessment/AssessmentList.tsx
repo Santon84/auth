@@ -20,7 +20,7 @@ function AssessmentList({currentUser}:any) {
 
   
   if (loading) return <Spinner />;
-
+  console.log(items);
   return (
     <>
 

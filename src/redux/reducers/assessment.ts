@@ -4,9 +4,6 @@ import * as types from "../types/assessmentTypes";
 import { AssessmentData } from '../../types/types';
 
 
-
-
-
 export interface IAssessmentState {
     items: AssessmentData[],
     current: AssessmentData | null,
@@ -22,10 +19,12 @@ const initialState: IAssessmentState = {
 
 }
 
-const assessmentReducer = (state = initialState, action:PayloadAction<AssessmentData>) => {
+const assessmentReducer = (state = initialState, action:PayloadAction<AssessmentData> | PayloadAction<string>) => {
     const { type, payload } = action;
   
     switch (type) {
+        
+        case types.SET_CURRENT_ASSESSMENT_START:
         case types.GET_ASSESSMENTS_START:
         case types.CREATE_ASSESSMENT_START:
             return {
@@ -43,6 +42,12 @@ const assessmentReducer = (state = initialState, action:PayloadAction<Assessment
             return {
                 ...state,
                 items : [payload, ...state.items],
+                loading : false,
+            }
+        case types.SET_CURRENT_ASSESSMENT_SUCCESS:
+            return {
+                ...state,
+                current: state.items.find(item => item.id === payload),
                 loading : false,
             }
         default:

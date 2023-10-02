@@ -7,22 +7,29 @@ type NewQuestionProps = {
 }
 
 function NewQuestion({assessmentId}:NewQuestionProps) {
-  console.log(assessmentId);
     const [showEdit, setShowEdit] = React.useState(false);
+    
     function handleNewQuestion() {
         setShowEdit(true);
     }
 
 
     const handleCloseModal = () => {
-        console.log('close handle 1')
         setShowEdit(false);
         // setAnswersData([]);
     }
   return (
     <>
     <Button onClick={handleNewQuestion} className='mt-4' variant="outline-primary">+</Button>{' '}
-    {showEdit  ? <EditQuestionModal assessmentId={assessmentId} title='Новый вопрос' show={showEdit} handleClose={handleCloseModal} answers={undefined} question={null}/> : null} 
+    {showEdit  ? <EditQuestionModal 
+                  assessmentId={assessmentId} 
+                  title='Новый вопрос' 
+                  show={showEdit} 
+                  handleClose={handleCloseModal} 
+                  answers={undefined} 
+                  question={undefined}
+                  /> 
+    : null} 
     </>
   )
 }
